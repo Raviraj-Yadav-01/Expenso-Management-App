@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/constants/app_routes.dart';
+import '../../custom_eidgets/app_rounded_button.dart';
+import '../../custom_eidgets/uiHelper.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -9,50 +11,56 @@ class LoginPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool isPasswordVisible = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(right:11, left:11, top:300, bottom:200),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment:CrossAxisAlignment.start,
           children: [
 
-            Text("Hi, Welcome Back",textAlign:TextAlign.start,style:TextStyle(
+            Text("Hi, Welcome Back",style:TextStyle(
                 fontSize: 25,fontWeight: FontWeight.bold)),
+
 
             TextField(
               controller: emailController,
-              decoration: InputDecoration(
-                hintText: "Enter your email or mobile number",
-                labelText: "Email",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-
-                //prefixIcon: Icon(Icons.email)
+              decoration: myFieldDecoration(
+                hint: "Enter your email...",
+                label: "Email",
               ),
             ),
 
             SizedBox(height: 11),
 
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                hintText: "Enter your password",
-                labelText: "password",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-
-                //prefixIcon: Icon(Icons.email)
-              ),
+            StatefulBuilder(
+              builder: (context, ss) {
+                return TextField(
+                  controller: passwordController,
+                  obscureText: !isPasswordVisible,
+                  decoration:myFieldDecoration(
+                    hint: "Enter your password...",
+                    label: "Password",
+                    isPassword: true,
+                    onPasswordVisibilityTap: (){
+                      isPasswordVisible = !isPasswordVisible;
+                      ss((){});
+                    },
+                  ),
+                );
+              }
             ),
 
             SizedBox(height: 11),
 
-            SizedBox(
+           AppRoundedButton(onTap: (){}, title: "Login",isIcon:false, mIcon:Icons.login),
+
+           /* SizedBox(
               width:double.infinity,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(backgroundColor: Colors.amber,
@@ -62,6 +70,7 @@ class LoginPage extends StatelessWidget {
                 child: Text("Login", style: TextStyle(color: Colors.white)),
               ),
             ),
+*/
 
             Row(
               mainAxisAlignment:MainAxisAlignment.center,
