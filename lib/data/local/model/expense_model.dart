@@ -8,8 +8,8 @@ class ExpenseModel {
   num amt;
   num bal;
   int expType;
-  ///*******************1=> Debit ,
-  ///*******************2=> Credit
+  ///1=> Debit ,
+  ///2=> Credit
   int catId;
   int createdAt;
 

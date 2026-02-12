@@ -66,10 +66,10 @@ class DBHelper {
   }
 
 
-   ///User Authentication Queries
-  /// 1 login success
-  /// 2 invalid email
-  /// 3 invalid password
+   //User Authentication Queries
+  // 1 login success
+  // 2 invalid email
+  // 3 invalid password
   Future<int> authenticateUser({required String email, required String pass}) async {
     var db = await initDB();
 
@@ -108,7 +108,7 @@ class DBHelper {
   }
 
 
-  //// expense add Query
+  // expense add Query
   Future<List<ExpenseModel>> getAllExpenses() async {
     var db = await initDB();
     SharedPreferences prefs = await SharedPreferences.getInstance();

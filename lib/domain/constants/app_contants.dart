@@ -3,7 +3,7 @@ import '../../data/local/model/categort_model.dart';
 
 
 class AppConstants {
-  ///img path
+/// Image Paths
   static const String img_coffe = "assets/icons/coffee.png";
   static const String img_fast_food = "assets/icons/fast-food.png";
   static const String img_travel = "assets/icons/travel.png";
