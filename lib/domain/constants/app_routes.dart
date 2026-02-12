@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
-
+import '../../ui/screen/add_expense/add_expense_page.dart';
 import '../../ui/screen/dashboard/dashboard_page.dart';
-import '../../ui/screen/login/login_Page.dart';
-import '../../ui/screen/sinup/sinup_page.dart';
+import '../../ui/screen/onboarding/login/login_Page.dart';
+import '../../ui/screen/onboarding/login/sinup/sinup_page.dart';
 import '../../ui/screen/splash/splash_page.dart';
+
 
 class AppRoutes{
 
@@ -12,10 +12,8 @@ class AppRoutes{
   static const String login ="/login";
   static const String signup ="/signup";
   static const String dashboard ="/dashboard";
-  static const String addExpense ="/addExpense";
+  static const String addExpense ="/expense";
   static const String stats ="/stats";
-
-
 
 
 
@@ -24,7 +22,8 @@ class AppRoutes{
      login : (context) => LoginPage(),
      signup : (context) => SignUpPage(),
      dashboard : (context) => DashBoardPage(),
-    // addExpense : (context) => AddExpense(),
+     addExpense : (context) => AddExpense(),
+
 
  };
 

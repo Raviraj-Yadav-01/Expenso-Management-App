@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppRoundedButton extends StatelessWidget {
 
+
   VoidCallback? onTap;
   String title;
   Color bgColor;
@@ -15,7 +16,7 @@ class AppRoundedButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.title,
-    this.bgColor = Colors.amber,
+    required this.bgColor,
     this.fgColor = Colors.white,
     this.isIcon = false,
     this.mIcon,

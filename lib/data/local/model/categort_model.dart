@@ -2,12 +2,11 @@
 
 class CatModel{
 
-  int? id;
+  int id;
   String title;
   String imgPath;
 
-   CatModel({
-    this.id,
+   CatModel({required this.id,
     required this.title,
     required this.imgPath,
 });

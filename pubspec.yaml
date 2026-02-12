@@ -34,6 +34,15 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  sqflite: ^2.4.2
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  provider: ^6.1.5+1
+  intl: ^0.20.2
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.3
+  fl_chart: ^0.65.0
+
 
 dev_dependencies:
   flutter_test:
@@ -46,8 +55,19 @@ flutter:
 
   uses-material-design: true
 
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/font/Nunito-Regular.ttf
+
+    - family: Poppins
+      fonts:
+        - asset: assets/font/Poppins-Regular.ttf
+
+
   assets:
     - assets/image/
+    - assets/icons/
 
 
 
