@@ -1,6 +1,6 @@
 
 import 'package:expenso_422/ui/screen/add_expense/bloc/expense_bloc.dart';
-import 'package:expenso_422/ui/screen/onboarding/login/bloc/user_bloc.dart';
+import 'package:expenso_422/ui/screen/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'data/local/helper/dbHelper.dart';

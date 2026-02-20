@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/constants/app_routes.dart';
-import '../../../custom_widgets/app_rounded_button.dart';
-import '../../../custom_widgets/uiHelper.dart';
-import 'bloc/user_bloc.dart';
-import 'bloc/user_event.dart';
-import 'bloc/user_state.dart';
+import '../../custom_widgets/app_rounded_button.dart';
+import '../../custom_widgets/uiHelper.dart';
+import '../bloc/user_bloc.dart';
+import '../bloc/user_event.dart';
+import '../bloc/user_state.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -31,6 +31,7 @@ class LoginPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               Text(
                 "Hi, Welcome Back",
                 style: TextStyle(
@@ -45,6 +46,7 @@ class LoginPage extends StatelessWidget {
 
               TextFormField(
                 style: TextStyle(color: Colors.white, fontSize: 16),
+
                 validator: (value) {
                   final bool emailValid = RegExp(
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
@@ -81,8 +83,10 @@ class LoginPage extends StatelessWidget {
                         return null;
                       }
                     },
+
                     controller: passwordController,
                     obscureText: !isPasswordVisible,
+
                     decoration: myFieldDecoration(
                       hint: "Enter your password...",
                       sHint: TextStyle(color: Colors.white),
@@ -196,6 +200,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
+
             ],
           ),
         ),

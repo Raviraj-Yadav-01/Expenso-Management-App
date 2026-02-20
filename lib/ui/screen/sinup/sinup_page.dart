@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/local/model/user_model.dart';
-import '../../../../../domain/constants/app_routes.dart';
-import '../../../../custom_widgets/app_rounded_button.dart';
-import '../../../../custom_widgets/uiHelper.dart';
+import '../../../data/local/model/user_model.dart';
+import '../../../domain/constants/app_routes.dart';
+import '../../custom_widgets/app_rounded_button.dart';
+import '../../custom_widgets/uiHelper.dart';
 import '../bloc/user_bloc.dart';
 import '../bloc/user_event.dart';
 import '../bloc/user_state.dart';
@@ -27,7 +27,9 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor:Color(0xff100f1f),
+
       body: Form(
         key: formKey,
         child: Padding(
@@ -151,13 +153,6 @@ class SignUpPage extends StatelessWidget {
                 ),
                 SizedBox(height: 11),
             
-              /*  Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Minimum 8 characters, must enter at least 1 uppercase letter (A–Z), at least 1 lowercase letter (a–z), at least 1 number (0–9), at least 1 special character (e.g. @, # , % , & ",
-                  ),
-                ),*/
-            
                 SizedBox(height: 11),
             
                 StatefulBuilder(
@@ -224,9 +219,7 @@ class SignUpPage extends StatelessWidget {
                   builder: (context, state) {
                     return AppRoundedButton(
 
-                      onTap: isCreatingAccount
-                          ? null
-                          : () {
+                      onTap: isCreatingAccount ? null : () {
                               if (formKey.currentState!.validate()) {
                                 context.read<UserBloc>().add(
                                   RegisterUserEvent(

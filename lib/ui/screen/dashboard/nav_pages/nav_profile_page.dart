@@ -43,6 +43,7 @@ class ProfilePage extends StatelessWidget {
           
                 ),
               ),
+
               SizedBox(height: 11),
 
               Text("RaviRaj",style:TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color:Colors.grey)),

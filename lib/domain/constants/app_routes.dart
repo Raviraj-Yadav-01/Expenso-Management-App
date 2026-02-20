@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../ui/screen/add_expense/add_expense_page.dart';
 import '../../ui/screen/dashboard/dashboard_page.dart';
-import '../../ui/screen/onboarding/login/login_Page.dart';
-import '../../ui/screen/onboarding/login/sinup/sinup_page.dart';
+import '../../ui/screen/login/login_Page.dart';
+import '../../ui/screen/sinup/sinup_page.dart';
 import '../../ui/screen/splash/splash_page.dart';
 
 

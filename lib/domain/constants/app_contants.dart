@@ -1,7 +1,5 @@
 import '../../data/local/model/categort_model.dart';
 
-
-
 class AppConstants {
 /// Image Paths
   static const String img_coffe = "assets/icons/coffee.png";
@@ -49,6 +47,7 @@ class AppConstants {
   static const String columnUserEmail = "u_email";
   static const String columnUserMobNo = "u_mobNo";
   static const String columnUserPassword = "u_pass";
+
 
   ///Category table
   static final List<CatModel> allCat = [

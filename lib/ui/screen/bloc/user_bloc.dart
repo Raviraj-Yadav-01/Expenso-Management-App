@@ -1,10 +1,10 @@
 
 
-import 'package:expenso_422/ui/screen/onboarding/login/bloc/user_event.dart';
-import 'package:expenso_422/ui/screen/onboarding/login/bloc/user_state.dart';
+import 'package:expenso_422/ui/screen/bloc/user_event.dart';
+import 'package:expenso_422/ui/screen/bloc/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/local/helper/dbHelper.dart';
+import '../../../data/local/helper/dbHelper.dart';
 
 class UserBloc extends Bloc<UserEvent , UserState>{
 
