@@ -18,7 +18,8 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 4), () async {
+    ///used shared preference for login purpose
+    Timer(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       int userId = prefs.getInt(AppConstants.prefs_user_id) ?? 0;
 
@@ -27,7 +28,6 @@ class _SplashPageState extends State<SplashPage> {
       if (userId > 0) {
         nextPage = AppRoutes.dashboard;
       }
-
       Navigator.pushReplacementNamed(context, nextPage);
     });
   }
@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
       //backgroundColor:Color(0xffff3952),
       backgroundColor: Color(0xff100f1f),
       body: Padding(
-        padding: const EdgeInsets.only(left: 100, right: 100),
+        padding:  EdgeInsets.only(left: 100, right: 100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,8 +47,8 @@ class _SplashPageState extends State<SplashPage> {
 
             SizedBox(height: 11),
 
-            Text("Expense",
-              style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.bold, fontSize: 30,color:Colors.white),
+            Text("Expense", style: TextStyle(fontFamily: "Poppins",fontWeight: FontWeight.w900,
+                fontSize: 30,color:Colors.white,fontStyle: FontStyle.italic),
             ),
 
           ],

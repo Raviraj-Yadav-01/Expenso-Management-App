@@ -5,9 +5,9 @@ import '../../../data/local/model/user_model.dart';
 import '../../../domain/constants/app_routes.dart';
 import '../../custom_widgets/app_rounded_button.dart';
 import '../../custom_widgets/uiHelper.dart';
-import '../bloc/user_bloc.dart';
-import '../bloc/user_event.dart';
-import '../bloc/user_state.dart';
+import '../user_bloc/user_bloc.dart';
+import '../user_bloc/user_event.dart';
+import '../user_bloc/user_state.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
@@ -39,8 +39,7 @@ class SignUpPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Create Account",
+                Text("Create Account",
                   style: TextStyle(color:Colors.white,fontSize: 34, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 11),
@@ -189,6 +188,7 @@ class SignUpPage extends StatelessWidget {
             
                 BlocConsumer<UserBloc, UserState>(
                   listener: (context, state) {
+
                     if (state is UserLoadingState) {
                       isCreatingAccount = true;
                     }
@@ -196,9 +196,7 @@ class SignUpPage extends StatelessWidget {
                     if (state is UserFailureState) {
                       isCreatingAccount = false;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Something went to Wrong"),
-                          backgroundColor: Colors.red,
+                        SnackBar(content: Text("Something went to Wrong"), backgroundColor: Colors.red,
                         ),
                       );
                     }
@@ -206,15 +204,13 @@ class SignUpPage extends StatelessWidget {
                     if (state is UserSuccessState) {
                       isCreatingAccount = false;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Your Account has been Created SuccessFully!!",
-                          ),
+                        SnackBar(content: Text("Your Account has been Created SuccessFully!!"),
                           backgroundColor: Colors.green,
                         ),
                       );
                       Navigator.pushReplacementNamed(context, AppRoutes.login);
                     }
+
                   },
                   builder: (context, state) {
                     return AppRoundedButton(
@@ -239,9 +235,9 @@ class SignUpPage extends StatelessWidget {
                     );
                   },
                 ),
-            
                 SizedBox(height: 5),
-            
+
+                //pop button if user have already an account
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, "/login");
@@ -249,17 +245,11 @@ class SignUpPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "if already have an account,",
-                        style: TextStyle(color:Colors.white,fontWeight: FontWeight.w600),
+                      Text("if already have an account,", style: TextStyle(color:Colors.white,fontWeight: FontWeight.w600),
                       ),
                       SizedBox(width: 3),
-                      Text(
-                        " login now...",
-                        style: TextStyle(
-                          color: Color(0xffff3952),
-                          fontWeight: FontWeight.w600,
-                        ),
+                      Text(" login now...",
+                        style: TextStyle(color: Color(0xffff3952), fontWeight: FontWeight.w600,),
                       ),
                     ],
                   ),

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/constants/app_routes.dart';
 import '../../custom_widgets/app_rounded_button.dart';
 import '../../custom_widgets/uiHelper.dart';
-import '../bloc/user_bloc.dart';
-import '../bloc/user_event.dart';
-import '../bloc/user_state.dart';
+import '../user_bloc/user_bloc.dart';
+import '../user_bloc/user_event.dart';
+import '../user_bloc/user_state.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -32,8 +32,7 @@ class LoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Text(
-                "Hi, Welcome Back",
+              Text("Hi, Welcome Back",
                 style: TextStyle(
                   fontFamily: "Poppins",
                   fontSize: 25,

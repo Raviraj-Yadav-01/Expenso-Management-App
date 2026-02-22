@@ -4,12 +4,13 @@ import 'package:intl/intl.dart';
 import '../../../data/local/model/expense_model.dart';
 import '../../../domain/constants/app_contants.dart';
 import '../../custom_widgets/uiHelper.dart';
-import 'bloc/expense_bloc.dart';
-import 'bloc/expense_event.dart';
-import 'bloc/expense_state.dart';
+import 'expense_bloc/expense_bloc.dart';
+import 'expense_bloc/expense_event.dart';
+import 'expense_bloc/expense_state.dart';
 
 class AddExpense extends StatefulWidget {
-  const AddExpense({super.key});
+
+   const AddExpense({super.key});
   @override
   State<AddExpense> createState() => _AddExpenseState();
 }
@@ -20,6 +21,8 @@ class _AddExpenseState extends State<AddExpense> {
   var amtController = TextEditingController();
 
   int selectedType = 1;
+
+  //for debit or credit
   List<String> myTypes = ["Debit", "Credit"];
 
   int selectedCatIndex = -1;
@@ -28,17 +31,21 @@ class _AddExpenseState extends State<AddExpense> {
   TimeOfDay? selectedTime;
   DateFormat df = DateFormat();
   DateFormat tf = DateFormat.jms();
+  num mainBal = 0.0;
 
   @override
   Widget build(BuildContext context) {
+
+    mainBal = ModalRoute.of(context)?.settings.arguments as num;
     return Scaffold(
 
      appBar: AppBar(
          title: Text("Add Expense",style: TextStyle(color: Colors.white),),
-         backgroundColor:Color(0xff100f1f),
+         //backgroundColor:Color(0xff100f1f),
          centerTitle: false),
 
       backgroundColor:Color(0xff100f1f),
+
 
       body: Padding(
         padding: const EdgeInsets.only(top:20, left:11, right:11),
@@ -46,6 +53,7 @@ class _AddExpenseState extends State<AddExpense> {
           child: Column(
             children: [
 
+               //TextField for Title
               TextField(
                 controller: titleController,
                 style: TextStyle(color: Colors.white),
@@ -58,6 +66,7 @@ class _AddExpenseState extends State<AddExpense> {
               ),
               SizedBox(height: 11),
 
+              //TextField for Desc
               TextField(
                 controller: descController,
                 style: TextStyle(color: Colors.white),
@@ -70,10 +79,11 @@ class _AddExpenseState extends State<AddExpense> {
               ),
               SizedBox(height: 11),
 
+              //TextField for amount
               TextField(
                 controller: amtController,
                 keyboardType: TextInputType.number,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.blue),
                 decoration: myFieldDecoration(
                   hint: "Enter your amount here..",
                   sHint: TextStyle(color: Colors.white),
@@ -81,8 +91,6 @@ class _AddExpenseState extends State<AddExpense> {
                   sLabel: TextStyle(color: Colors.white),
                 ),
               ),
-
-
               SizedBox(height: 11),
               /* DropdownButton(
               value : selectedType,
@@ -94,13 +102,12 @@ class _AddExpenseState extends State<AddExpense> {
               selectedType = value!;
               setState((){});
              }),*/
+
+              //DropDown for Debit and Credit
               DropdownMenu(
                 width: double.infinity,
                 inputDecorationTheme: InputDecorationTheme(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(21),
-                  ),
-                ),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(21))),
                 label: Text('Type',style: TextStyle(color: Colors.white)),
                 initialSelection: selectedType,
                 onSelected: (value) {
@@ -116,22 +123,15 @@ class _AddExpenseState extends State<AddExpense> {
                 style: OutlinedButton.styleFrom(
                   minimumSize: Size(double.infinity, 60),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(21),
-                  ),
-                ),
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
+                    borderRadius: BorderRadius.circular(21)),
+                ), onPressed: () {
+                  showModalBottomSheet( context: context,
                     builder: ((context) {
                       return Container(
                         padding: EdgeInsets.only(top: 11, right: 11, left: 11),
                         child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                mainAxisSpacing: 5,
-                                crossAxisSpacing: 5,
-                              ),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4, mainAxisSpacing: 5, crossAxisSpacing: 5),
                           itemCount: AppConstants.allCat.length,
                           itemBuilder: (_, index) {
                             return InkWell(
@@ -145,11 +145,7 @@ class _AddExpenseState extends State<AddExpense> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Image.asset(
-                                    AppConstants.allCat[index].imgPath,
-                                    width: 50,
-                                    height: 50,
-                                  ),
+                                  Image.asset(AppConstants.allCat[index].imgPath, width: 50, height: 50),
                                   Text(AppConstants.allCat[index].title),
                                 ],
                               ),
@@ -161,15 +157,10 @@ class _AddExpenseState extends State<AddExpense> {
                   );
                 },
                 child: selectedCatIndex < 0
-                    ? Text("add Category")
-                    : Row(
+                    ? Text("add Category") : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            AppConstants.allCat[selectedCatIndex].imgPath,
-                            width: 50,
-                            height: 50,
-                          ),
+                          Image.asset(AppConstants.allCat[selectedCatIndex].imgPath,width: 50, height: 50),
                           SizedBox(width: 11),
                           Text("- Category ${AppConstants.allCat[selectedCatIndex].title}",
                             style: TextStyle(fontSize: 20,color: Colors.white),
@@ -211,29 +202,6 @@ class _AddExpenseState extends State<AddExpense> {
               ),
 
               SizedBox(height: 11),
-             /* StatefulBuilder(
-                builder: (context, setState) {
-                  return OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(21),
-                      ),
-                    ),
-                    onPressed: () async {
-
-                      selectedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay(hour:DateTime.now().hour, minute:DateTime.now().minute),
-                      );
-
-                      setState(() {});
-                    },
-                    child: Text((selectedTime ?? TimeOfDay.now()).format(context)),
-                  );
-                },
-              ),
-              SizedBox(height: 11),*/
 
               BlocListener<ExpenseBloc, ExpenseState>(
                 listener: (context, state) {
@@ -264,13 +232,21 @@ class _AddExpenseState extends State<AddExpense> {
                   ),
                   onPressed: () {
 
+                    num updatedBal = 0.0;
+
+                    if(selectedType == 1){
+                      updatedBal = mainBal - double.parse(amtController.text);
+                    }else{
+                      updatedBal = mainBal + double.parse(amtController.text);
+                    }
+
                     context.read<ExpenseBloc>().add(
                       AddExpenseEvent(
                         newExp: ExpenseModel(
                           title: titleController.text,
                           desc: descController.text,
                           amt: double.parse(amtController.text),
-                          bal: 0.0,
+                          bal: updatedBal,
                           expType: selectedType,
                           catId: AppConstants.allCat[selectedCatIndex].id,
                           createdAt: (selectedDateTime  ?? DateTime.now()).millisecondsSinceEpoch,

@@ -13,7 +13,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
   ExpenseBloc({required this.dbHelper}) : super(ExpInitialState()) {
 
-
     on<AddExpenseEvent>((event, emit) async {
       emit(ExpLoadingState());
 
@@ -21,7 +20,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
 
       if (isAdded) {
         var allExp = await dbHelper.getAllExpenses();
-        emit(ExpLoadedState(allExp: filterAllExp(allExp, 1)));
+        emit(ExpLoadedState(allExp: filterAllExp(allExp, 1), mainBalance: allExp.isNotEmpty ? allExp.last.bal : 0.0));
       } else {
         emit(ExpErrorState(errorMsg: "Something went wrong"));
       }
@@ -31,13 +30,9 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       emit(ExpLoadingState());
 
       var allExp = await dbHelper.getAllExpenses();
-      emit(ExpLoadedState(allExp: filterAllExp(allExp, event.filterFlag)));
+      emit(ExpLoadedState(allExp: filterAllExp(allExp, event.filterFlag),mainBalance: allExp.last.bal));
     });
   }
-
-
-
-
 
   List<FilterExpenseModel> filterAllExp( List<ExpenseModel> allExpense, int flag ) {
 

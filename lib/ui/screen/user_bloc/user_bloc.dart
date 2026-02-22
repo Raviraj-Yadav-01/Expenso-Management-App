@@ -1,7 +1,7 @@
 
 
-import 'package:expenso_422/ui/screen/bloc/user_event.dart';
-import 'package:expenso_422/ui/screen/bloc/user_state.dart';
+import 'package:expenso_422/ui/screen/user_bloc/user_event.dart';
+import 'package:expenso_422/ui/screen/user_bloc/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/local/helper/dbHelper.dart';

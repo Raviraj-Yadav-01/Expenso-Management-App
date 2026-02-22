@@ -11,7 +11,8 @@ class   ExpLoadingState extends ExpenseState{}
 
 class   ExpLoadedState extends ExpenseState{
  List<FilterExpenseModel> allExp;
- ExpLoadedState({required this.allExp});
+ num mainBalance;
+ ExpLoadedState({required this.allExp, required this.mainBalance});
 }
 
 

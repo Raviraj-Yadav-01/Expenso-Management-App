@@ -1,6 +1,6 @@
 
-import 'package:expenso_422/ui/screen/add_expense/bloc/expense_bloc.dart';
-import 'package:expenso_422/ui/screen/bloc/user_bloc.dart';
+import 'package:expenso_422/ui/screen/add_expense/expense_bloc/expense_bloc.dart';
+import 'package:expenso_422/ui/screen/user_bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'data/local/helper/dbHelper.dart';
@@ -12,9 +12,8 @@ void main(){
       BlocProvider(create: (context) => UserBloc(dbHelper: DBHelper.getInstance())),
       BlocProvider(create: (context) => ExpenseBloc(dbHelper: DBHelper.getInstance())),
     ], child: MyApp(),
-
   )
-      );
+ );
 }
 
 class MyApp extends StatelessWidget{

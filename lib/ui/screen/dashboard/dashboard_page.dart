@@ -1,8 +1,9 @@
+import 'package:expenso_422/ui/screen/add_expense/expense_bloc/expense_state.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../domain/constants/app_contants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/constants/app_routes.dart';
+import '../add_expense/expense_bloc/expense_bloc.dart';
+import '../add_expense/expense_bloc/expense_event.dart';
 import 'nav_pages/nav_home_Page.dart';
 import 'nav_pages/nav_notification_page.dart';
 import 'nav_pages/nav_profile_page.dart';
@@ -17,6 +18,7 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   int selectedIndex = 0;
+  num currBal = 0.0;
 
   List<Widget> mPages = [
     HomePage(),
@@ -25,13 +27,26 @@ class _DashBoardPageState extends State<DashBoardPage> {
     NotificationPage(),
     ProfilePage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ExpenseBloc>().add(FetchInitialExpenseEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       body: mPages[selectedIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BlocListener<ExpenseBloc, ExpenseState>(
+        listener: (context, state){
+
+          if(state is ExpLoadedState){
+             currBal = state.mainBalance;
+          }
+
+        },child: BottomNavigationBar(
         backgroundColor:Color(0xff100f1f),
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Color(0xffff3952),
@@ -41,7 +56,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
         onTap: (index) {
 
           if(index == 2){
-            Navigator.pushNamed(context, AppRoutes.addExpense);
+            Navigator.pushNamed(context, AppRoutes.addExpense, arguments:currBal);
           }else {
             selectedIndex = index;
             setState(() {});
@@ -61,14 +76,14 @@ class _DashBoardPageState extends State<DashBoardPage> {
           ),
 
           BottomNavigationBarItem(
-            icon: Container(
-              width:45,
-              height:45,
-              decoration:BoxDecoration(
-                color: Color(0xffff3952),
-                borderRadius: BorderRadius.circular(9)
-              ),
-                child: Icon(Icons.add,color:Colors.white)),label: "Add"),
+              icon: Container(
+                  width:45,
+                  height:45,
+                  decoration:BoxDecoration(
+                      color: Color(0xffff3952),
+                      borderRadius: BorderRadius.circular(9)
+                  ),
+                  child: Icon(Icons.add,color:Colors.white)),label: "Add"),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications_active_outlined),
@@ -80,6 +95,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
             label: "profile",
           ),
         ],
+      )
       ),
     );
   }

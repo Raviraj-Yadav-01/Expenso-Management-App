@@ -1,14 +1,13 @@
 
 import 'dart:math';
-
 import 'package:flutter/Material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import '../../../../data/local/model/expense_model.dart';
 import '../../../../domain/constants/app_contants.dart';
-import '../../add_expense/bloc/expense_bloc.dart';
-import '../../add_expense/bloc/expense_event.dart';
-import '../../add_expense/bloc/expense_state.dart';
+import '../../add_expense/expense_bloc/expense_bloc.dart';
+import '../../add_expense/expense_bloc/expense_event.dart';
+import '../../add_expense/expense_bloc/expense_state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,40 +18,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   DateFormat tf = DateFormat.jms();
+
   List<String> mType = [
     "Date-wise",
     "Month-wise",
     "Year-wise",
     "Category-wise",
   ];
+
+
   int selectedType = 1;
+
 
   @override
   void initState() {
     super.initState();
-    context.read<ExpenseBloc>().add(FetchInitialExpenseEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      backgroundColor:Color(0xff100f1f),
-
+      //backgroundColor:Color(0xff100f1f),
+      backgroundColor: Colors.blueGrey,
       body: Padding(
-        padding: const EdgeInsets.only( top:40,left:8,right:8),
-        child: Column(
-          children: [
-            headerLay(),
-            SizedBox(height: 7),
-            mainLay(),
-          ],
-        ),
+        padding: EdgeInsets.only(top: 40, left: 8, right: 8),
+        child: Column(children: [headerLay(), SizedBox(height: 7), mainLay()]),
       ),
     );
   }
 
-  Widget headerLay(){
+  Widget headerLay() {
     return Row(
       children: [
         CircleAvatar(
@@ -96,20 +91,19 @@ class _HomePageState extends State<HomePage> {
             //border: Border.all(color: Colors.blue.shade100),
           ),
           child: DropdownButton(
-            focusColor:Colors.amber,
+            focusColor: Colors.amber,
             elevation: 8,
             value: selectedType,
-            dropdownColor:Colors.white,
+            dropdownColor: Colors.white,
 
             items: List.generate(mType.length, (i) {
-              return DropdownMenuItem(
-                value: i+1,
-                child: Text(mType[i]),
-              );
+              return DropdownMenuItem(value: i + 1, child: Text(mType[i]));
             }),
             onChanged: (value) {
               selectedType = value!;
-              context.read<ExpenseBloc>().add(FetchInitialExpenseEvent(filterFlag: value));
+              context.read<ExpenseBloc>().add(
+                FetchInitialExpenseEvent(filterFlag: value),
+              );
               setState(() {});
             },
           ),
@@ -118,7 +112,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget mainLay(){
+  Widget mainLay() {
     return Expanded(
       child: BlocBuilder<ExpenseBloc, ExpenseState>(
         builder: (context, state) {
@@ -131,94 +125,166 @@ class _HomePageState extends State<HomePage> {
           }
 
           if (state is ExpLoadedState) {
-            return state.allExp.isNotEmpty
-                ? Column(
-                crossAxisAlignment:CrossAxisAlignment.start ,
-                children: [
-                Text('ExpenseList',
-                  style: TextStyle(color:Colors.white,fontSize: 16, fontWeight: FontWeight.bold,),),
+            return state.allExp.isNotEmpty ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: state.allExp.length,
-                    itemBuilder: (context, index) {
-                      return Card(
+                      Card(
                         child: Container(
-                          //margin: EdgeInsets.symmetric(vertical:11),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade200,
+                          padding: EdgeInsetsGeometry.symmetric(horizontal: 8),
+                          height: 160, width: double.infinity,
+                          decoration: BoxDecoration(color: Colors.deepPurple,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.amber),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(state.allExp[index].title, style: TextStyle(fontSize: 16),),
-                                    Text(state.allExp[index].balance.toString(), style: TextStyle(fontSize: 16),),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Container(
-                                  height: 1,
-                                  width: double.infinity,
-                                  color: Colors.grey.shade400,
-                                ),
-                                SizedBox(height: 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Expense Total",
+                                  style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold, fontStyle: FontStyle.normal)),
+                              Text("\$${state.mainBalance}", style: TextStyle(color: Colors.white,
+                                fontSize: 40, fontWeight: FontWeight.bold, fontStyle: FontStyle.normal,)),
                         
-                                ListView.builder(
-                                  physics:
-                                  NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: state.allExp[index].eachTitleExp.length,
-                                  itemBuilder: (_, childIndex) {
-                                    ExpenseModel eachExp = state.allExp[index].eachTitleExp[childIndex];
-                        
-                                    String imgPath = AppConstants.allCat.firstWhere((element) {
-                                      return element.id == eachExp.catId;
-                                    }).imgPath;
-                                    DateTime eachExpDate = DateTime.fromMillisecondsSinceEpoch(eachExp.createdAt,
-                                    );
-                        
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      leading: Container(padding: EdgeInsets.all(5), height: 40, width: 40,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(7),
-                                          color:
-                                          Colors
-                                              .primaries[Random().nextInt(Colors.primaries.length,)],
-                                        ),
-                                        child: Image.asset(
-                                          imgPath,
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ),
-                                      title: Text(eachExp.title),
-                                      subtitle: Text(eachExp.desc),
-                                      trailing: Column(
-                                        children: [
-                                          Text( tf.format(eachExpDate)),
-                                          Text( eachExp.amt.toString()),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsetsGeometry.symmetric(horizontal: 2),
+                                    decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text("+\$250",style: TextStyle(color: Colors.white, fontSize: 15,
+                                      fontWeight: FontWeight.bold, fontStyle: FontStyle.normal,
+                                    ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 7),
+                                  Text("Expense Total", style: TextStyle(
+                                    color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-                 ],
-                 ) : Center(child: Text("no Expenses Yet!!"));
-          } return Container();
+                      ),
+
+                      Text('ExpenseList', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold,),),
+
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.allExp.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade200,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.amber),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                        children: [
+                                          Text(
+                                            state.allExp[index].title,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            state.allExp[index].balance
+                                                .toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Container(
+                                        height: 1,
+                                        width: double.infinity,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                      SizedBox(height: 5),
+
+                                      ListView.builder(
+                                        physics:
+                                            NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: state
+                                            .allExp[index]
+                                            .eachTitleExp
+                                            .length,
+                                        itemBuilder: (_, childIndex) {
+                                          ExpenseModel eachExp = state
+                                              .allExp[index]
+                                              .eachTitleExp[childIndex];
+
+                                          String imgPath = AppConstants
+                                              .allCat
+                                              .firstWhere((element) {
+                                                return element.id ==
+                                                    eachExp.catId;
+                                              })
+                                              .imgPath;
+                                          DateTime eachExpDate =
+                                              DateTime.fromMillisecondsSinceEpoch(
+                                                eachExp.createdAt,
+                                              );
+
+                                          return ListTile(
+                                            contentPadding:
+                                                EdgeInsets.zero,
+                                            leading: Container(
+                                              padding: EdgeInsets.all(5),
+                                              height: 40,
+                                              width: 40,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(7),
+                                                color: Colors.primaries[Random().nextInt(Colors.primaries.length, )],
+                                              ),
+                                              child: Image.asset(
+                                                imgPath,
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                            ),
+                                            title: Text(eachExp.title),
+                                            subtitle: Text(eachExp.desc),
+                                            trailing: Column(
+                                              children: [
+                                                Text(
+                                                  tf.format(eachExpDate),
+                                                ),
+                                                Text(
+                                                  eachExp.amt.toString(),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Center(child: Text("no Expenses Yet!!"));
+          }
+          return Container();
         },
       ),
     );
